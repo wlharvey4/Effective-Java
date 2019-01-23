@@ -1,0 +1,324 @@
+# -*- mode:org; fill-column:79; -*-
+#+TITLE: Effective Java
+#+SUBTITLE: Best Practices for the Java Platform (3rd Edition)
+#+AUTHOR: Joshua Bloch
+#+SUBAUTHOR: Outline by WLHarvey4
+#+DATE: 2019-01-22 Tue 12:27
+#+MACRO: VERSION Version 0.0.1
+#+MACRO: EDITION Outline Edition 0.1
+#+CREATOR: WLHarvey4
+
+#+TEXINFO: @insertcopying
+
+* Forward by Guy L. Steele, Jr.
+  :PROPERTIES:
+  :UNNUMBERED:
+  :END:
+  There are three things one must master to learn to use a new language outside
+  of the classroom:
+
+  1. *Grammer*: how the language is /structured/;
+  2. *Vocabulary*: how to name things you want to talk about;
+  3. *Usage*: the customary and effective ways to say everyday things.
+
+
+  It is much the same with programming languages.
+
+  - one needs to understand the core language: is it
+    - algorithmic,
+    - functional,
+    - object-oriented?
+
+  - one needs to know the vocabulary:
+    - what data structures,
+    - operations,
+    - facilities
+    are provided by the standard libraries?
+
+  And one needs to be familiar with the customary and effective ways to
+  structure code.
+
+
+  {{{heading(On Usage)}}}
+
+  Books about programming languages often cover only the first two or discuss
+  usage only spottily.  Maybe that's because the first two are in some ways
+  easier to write about.  Grammar and vocabulary are properties of the language
+  alone, but *usage* is characteristic of a community that uses it.
+
+  The Java programming language, for example, is:
+
+  - object-oriented
+  - with single inheritance
+  - and supports an imperative (statement-oriented) coding style within each
+    method.
+  - The libraries address graphic display support,
+  - networking,
+  - distributed computing, and
+  - security.
+
+  But /how/ is the language best put to use /in practice/?
+
+  {{{heading(On Change)}}}
+
+  There is another point.  Programs, unlike spoken sentences and unlike most
+  books and magazines, are likely to be changed over time.  It's typically not
+  enough to produce code that operates effectively and is readily understood by
+  other persons; *one must also organize the code so that it is easy to
+  modify.* There may be ten ways to write code for some task /T/.  Of those ten
+  ways, seven will be awkward, inefficent, or puzzling.  Of the other other
+  three, which is most likely to be similar to the code needed for the task
+  /T2/ in next year's software release?
+
+  {{{heading(Books on Grammar and Libraries)}}}
+
+  There are numerous books from which you can learn the grammar of the Java
+  programming language, including:
+
+  - {{{cite(The Java Programming Language)}}} by Arnold, Gosling, and Holmes; or
+  - {{{cite(The Java Language Specification)}}} by Gosling, Joy, Steele, and
+    Bracha.
+
+
+  Likewise, there are dozens of books on the libraries and APIs associated with
+  the Java programming language.
+
+  {{{heading(Customary and Effective Usage)}}}
+
+  This book addresses your third need: /customary and effective usage/.  Joshua
+  Bloch has spent years extending, implementing, and using the Java programming
+  language at Sun Microsystems; he has also read a log of other people's code,
+  including Steele's.,  Here he offers good advice, systematically organized,
+  on how to structure your code so that:
+
+  - it works well
+  - other people can understand it,
+  - future modifications and improvements are less likely to cause headaches;
+  - (hopefully) your programs will be pleasant, elegant, and graceful.
+
+
+  {{{noindent}}}--- Guy L. Steele Jr. (April 2001)
+
+* Preface
+  :PROPERTIES:
+  :UNNUMBERED:
+  :END:
+
+** Preface to the Third Edition
+
+   #+cindex: Gosling, James
+   #+cindex: Stroustrup, Bjarne
+   #+cindex: C++
+   In 1997, when Java was new, James Gosling (the father of Java), described it
+   as a ``blue collar language'' that was ``pretty simple''.  At about the same
+   time, Bjarne Stroustrup (the father of C++) described C++ as a
+   ``multi-paradigm language'' that ``deliberately differs from languages
+   designed to support a single way of writing programs.''  Stroustrup warned:
+
+   #+BEGIN_QUOTE
+   Much of the relative simplicity of Java is --- like most new languages ---
+   partly an illusion and partly a function of its incompleteness.  As time
+   passes, Java will grow significantly in size and complexity.  It will double
+   or triple in size and grow implementation-dependent extensions or libraries.
+
+   ---Stroustrup
+   #+END_QUOTE
+
+   Twenty years later, it's fair to say that Gosling and Stroustrup were both
+   right.  Java is now large and complex, with multiple abstractions for many
+   things, from parallel execution, to iteration, to the representation of
+   dates and times.
+
+   Joshua Bloch still likes Java, but his ardor has cooled a bit as the
+   platform has grown.  Given its increased size and complexity, the need for
+   an up-to-date best practices guide is all the more critical.  With this
+   third edition of {{{cite({{{title}}})}}}, the author, Bloch, did his best to
+   provide one.
+
+   Small is beautiful, but simple ain't easy.
+
+   {{{noindent}}}--- Joshua Bloch, November 2017
+
+** Preface to the Second Edition
+
+   #+cindex: changes since 2001
+   #+cindex: Java 5
+   A lot has happened since the first edition in 2001.  The most significant
+   set of changes was:
+
+   - the addition of
+     - generics
+     - enum types
+     - annotations
+     - autoboxing
+     - ~for-each~ loop in Java 5.
+
+
+   A close second was:
+
+   #+cindex: concurrency library
+   #+cindex: Java 5
+   - the addition of the new concurrency library,
+     {{{code(java.util.concurrent)}}}, also released in Java 5.
+
+
+   #+cindex: Bracha, Gilad
+   #+cindex: Lea, Doug
+   Bloch lead the teams (with Gilad Bracha) that designed the new language
+   features.  Bloch also served on the team that designed and developed the
+   concurrency library, led by Doug Lea.
+
+   #+cindex: IDEs
+   The other big change in the platform is
+
+   #+cindex: Eclipse
+   #+cindex: IntelliJ IDEA
+   #+cindex: NetBeans
+   #+cindex: static analysis tools
+   #+cindex: tools, static analysis
+   #+cindex: FindBugs
+   - the widespread adoption of modern Integrated Development Environments
+     (IDE's), such as
+     - Eclipse
+     - IntelliJ IDEA
+     - NetBeans
+   - and of static analysis tools such as:
+     - FindBugs
+
+
+   #+cindex: Sun
+   #+cindex: Google
+   #+cindex: concurrency API
+   #+cindex: collections API
+   #+cindex: APIs
+   #+cindex: Java Community Process
+   In 2004 Bloch moved from Sun to Google, but he's continued his involvement
+   in the development of the Java platform over the past four years,
+   contributing to the concurrency and collections APIs through the good
+   offices of Google and the Java Community Process.  He has also used the Java
+   platform to develop libraries for use within Google.  He now knows what it
+   is like to be a /user/.
+
+   His primary goal is to share his experience with the reader so that the
+   reader can imitate his successes while avoiding his failures.  The new
+   material continues to make liberal use of the real-world examples from the
+   Java platform libraries.
+
+   The material in this edition has grown from fifty-seven items to
+   seventy-eight.  He also thoroughly revised all the original material and
+   retired a few items.  In the Appendix you can see how the material in this
+   edition relates to the material in the first edition.
+
+   The changes in releases 5 and 6 have taken a good thing and made it better.
+   The platform is much bigger now that it was in 2001 and more complex, but
+   once you learn the patterns and idioms for using the new features, they make
+   your programs better and your life easier.
+
+   {{{noindent}}}--- Joshua Bloch, April 2008
+
+** Preface to the First Edition
+
+   #+cindex: JavaSoft
+   In 1996 Joshua Bloch went to work for JavaSoft, as it was then known.  In
+   the intervening five years he has served as Java platform libraries
+   architect.  He has designed, implemented, and maintained many of the
+   libraries and served as a consultant for many others.  Presiding over these
+   libraries as the Java platform matures was a once-in-a-lifetime
+   opportunity.  He worked with some of the great software engineers of our
+   generation.  In the process he learned a lot about the Java programming
+   language---what works, what doesn't, and how to use the language and its
+   libraries to best effort.
+
+   #+cindex: Meyer, Scott
+   #+cindex: @cite{Effective C++}
+   This book is his attempt to share his experience with the reader so that the
+   reader can imitate his successes while avoiding his failures,.  He borrowed
+   the format from Scott Meyer's {{{cite(Effective C++)}}}, which consists of
+   fifty items, each conveying one specific rule for improving programs and
+   designs.  He found the format to be singularly effective.  He hopes you do
+   too.
+
+   He took the liberty of illustrating the items with real-world examples from
+   the Java platform libraries.  When describing something that could have been
+   done better, he tried to pick on code that he wrote himself, but
+   occasionally he picks on something written by a colleague.  Negative
+   examples are cited not to cast blame but in the spirit of cooperation, so
+   that all of us can benefit from the experience of those who've gone before.
+
+   #+cindex: reusable components
+   #+cindex: exported APIs
+   While this book is not targeted solely at developers of reusable components,
+   it is inevitably colored by Bloch's experience writing such components over
+   the past two decades.  He naturally thinks in terms of exported APIs, and he
+   encourages the reader to do likewise.  Even if you are not developing
+   reusable components, thinking in these terms tends to improve the quality of
+   the software you write.  Furthermore, its not uncommon to write reusable
+   components without knowing it.  You write something useful, share it with
+   your buddy, and before long you have half a dozen users.  At this point, you
+   no longer have the flexibility to change the API at will and are thankful
+   for all the effort you put into designing the API when you first wrote the
+   software.
+
+   #+cindex: extreme programming
+   #+cindex: software development methodologies
+   #+cindex: API design
+   #+cindex: refactoring process, goals
+   Bloch's focus on API design may seem a bit unnatural to devotees of the new
+   lightweight software development methodologies , such as /Extreme
+   Programming/.  These methodologies emphasize writing the simplest program
+   that could possibly work.  If you are using one of these methodologies, you
+   will find that a focus on API design serves you well in the /refactoring/
+   process.  The fundamental goals of refactoring are the improvement of system
+   structure and the avoidance of code duplication.  These goals are impossible
+   to achieve in the absence of well-designed APIs for the components of the
+   system.
+
+   No language is perfect, but some are excellent.  Bloch has found the Java
+   programming language and its libraries to be immensely conducive to quality
+   and productivity, and a joy to work with.
+
+   {{{noindent}}}--- Joshua Bloch, April 2001
+
+* Index
+  :PROPERTIES:
+  :INDEX:    cp
+  :END:
+
+* COPYING
+  :PROPERTIES:
+  :COPYING:
+  :END:
+
+  Outline of {{{cite({{{title}}})}}} by WLHarvey4
+
+  Book \copy 2018 Pearson Education Inc.{{{break}}}
+  Portions copyright \copy 2001-2008 Oracle and/or its affiliates.
+
+  #+BEGIN_QUOTE
+  {{{cite({{{title}}} (Third Edition))}}} by {{{author}}}.{{{break}}}
+  All Rights Reserved.
+  #+END_QUOTE
+
+* SOURCE CODE SETTINGS                                             :noexport:
+
+#+PROPERTY: header-args :export both
+#+PROPERTY: header-args :python python3
+
+* TEXINFO EXPORT SETTINGS                                          :noexport:
+
+#+TEXINFO_PRINTED_TITLE: Outline of Effective Java
+#+TEXINFO_CLASS: info
+#+TEXINFO_HEADER:
+#+TEXINFO_POST_HEADER:
+#+TEXINFO_DIR_CATEGORY: Java
+#+TEXINFO_DIR_TITLE: Effective Java
+#+TEXINFO_DIR_DESC: Outline of Effecive Java 3rd Edition by Joshua Bloch
+
+* MACRO DEFINITIONS                                                :noexport:
+
+#+MACRO: heading @@texinfo:@heading @@$1
+#+MACRO: subheading @@texinfo:@subheading @@$1
+#+MACRO: cite @@texinfo:@cite{@@$1@@texinfo:}@@
+#+MACRO: noindent @@texinfo:@noindent @@
+#+MACRO: break @@texinfo:@*@@
+#+MACRO: code @@texinfo:@code{@@$1@@texinfo:}@@
