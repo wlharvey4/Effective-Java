@@ -4,7 +4,7 @@
 #+AUTHOR: Joshua Bloch
 #+SUBAUTHOR: Outline by WLHarvey4
 #+DATE: 2019-01-22 Tue 12:27
-#+MACRO: VERSION Version 0.0.1
+#+MACRO: VERSION Version 0.0.2
 #+MACRO: EDITION Outline Edition 0.1
 #+CREATOR: WLHarvey4
 
@@ -278,6 +278,62 @@
    and productivity, and a joy to work with.
 
    {{{noindent}}}--- Joshua Bloch, April 2001
+
+* Introduction
+
+  This book is designed to help you make effective use of the Java programming
+  language and its fundamental libraries and some subpackages:
+
+  #+cindex: @code{java.lang}
+  #+cindex: @code{java.util}
+  #+cindex: @code{java.util.concurrent}
+  #+cindex: @code{java.util.function}
+  #+cindex: @code{java.io}
+  - ~java.lang~
+  - ~java.util~
+    - ~java.util.concurrent~
+    - ~java.util.function~
+  - ~java.io~
+
+
+  #+cindex: software design, rules
+  This book consists of ninety items, each of which conveys one rule.  The
+  rules capture practices generally held to be beneficial by the best and most
+  experienced programmers.  The items are loosely grouped into eleven chapters,
+  each covering one broad aspect of software design.  The book is not intended
+  to be read from cover to cover: each item stands on its own, more or less.
+  The items are heavily cross-referenced so you can easily plot your own course
+  through the book.
+
+  {{{heading(New Features)}}}
+
+  #+cindex: new features
+  Many new features were added to the platform since the last edition.  Most of
+  the items in this book use these features in some way.  This table shows you
+  where to go for primary coverage of key features:
+
+  #+NAME: tbl:new-features
+  #+CAPTION: List of New Features
+  #+ATTR_TEXINFO: :columns .5 .25 .25
+| Feature                       | Items        | Release |
+|-------------------------------+--------------+---------|
+| Lambdas                       | Items 42--44 | Java 8  |
+| Streams                       | Items 45--48 | Java 8  |
+| Optionals                     | Item 55      | Java 8  |
+| Default methods in interfaces | Item 21      | Java 8  |
+| ~try-with-resources~          | Item 9       | Java 7  |
+| ~@SafeVarargs~                | Item 32      | Java 7  |
+| Modules                       | Item 15      | Java 9  |
+|-------------------------------+--------------+---------|
+
+* Lists
+  :PROPERTIES:
+  :APPENDIX: t
+  :END:
+
+** Tables
+
+   #+TEXINFO: @listoffloats Table
 
 * Index
   :PROPERTIES:
