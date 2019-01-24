@@ -326,6 +326,42 @@
 | Modules                       | Item 15      | Java 9  |
 |-------------------------------+--------------+---------|
 
+
+  {{{heading(Program Examples)}}}
+
+  #+cindex: program examples
+  #+cindex: examples, program or code
+  #+cindex: code examples
+  #+cindex: @cite{Design Patterns: Elements of Reusable Object-Oriented Software}
+  #+cindex: Gamma Helm Johnson Vlissides
+  Most items are illustrated with program examples.  A key feature of the book
+  is that it contains code examples illustrating many design patterns and
+  idioms.  Where appropriate, they are cross-referenced to the standard
+  reference work in this area: {{{cite(Design Patterns)}}} (Gamma et al.).
+
+  {{{subheading(Antipatterns)}}}
+
+  #+cindex: antipatterns
+  Many items contain one or more program examples illustrating some practice to
+  be avoided.  Such examples, sometimes known as /antipatterns/, are clearly
+  labeled with a comment such as ~// Never do this!~.  In each case, the item
+  explains why the example is bad and suggests an alternative approach.
+
+  {{{heading(Not for Beginners)}}}
+
+  This book is not for beginners: it assumes that you are already comfortable
+  with Java.  If you are not, consider one fo the many fine introductory texts,
+  such as Peter Sestoft's {{{cite(Java Precisely)}}}.  While
+  {{{cite({{{title}}})}}} is designed to be accessible to anyone with a working
+  knowledge of the language, it should provide food for thought even for
+  advanced programmers.
+
+  {{{heading(Fundamental Principles)}}}
+
+  #+cindex: fundamental principles
+  #+cindex: principles, fundamental
+  #+cindex: rules
+  Most of the rules in this book derive from a few fundamental principles.
 * Lists
   :PROPERTIES:
   :APPENDIX: t
