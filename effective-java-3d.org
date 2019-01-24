@@ -3,8 +3,8 @@
 #+SUBTITLE: Best Practices for the Java Platform (3rd Edition)
 #+AUTHOR: Joshua Bloch
 #+SUBAUTHOR: Outline by WLHarvey4
-#+DATE: 2019-01-22 Tue 12:27
-#+MACRO: VERSION Version 0.0.2
+#+DATE: 2019-01-24 Thu 10:14
+#+MACRO: VERSION Version 0.0.3
 #+MACRO: EDITION Outline Edition 0.1
 #+CREATOR: WLHarvey4
 
@@ -305,7 +305,7 @@
   The items are heavily cross-referenced so you can easily plot your own course
   through the book.
 
-  {{{heading(New Features)}}}
+** New Features Since Prior Edition
 
   #+cindex: new features
   Many new features were added to the platform since the last edition.  Most of
@@ -327,7 +327,7 @@
 |-------------------------------+--------------+---------|
 
 
-  {{{heading(Program Examples)}}}
+** Program Examples and Antipatterns
 
   #+cindex: program examples
   #+cindex: examples, program or code
@@ -347,7 +347,7 @@
   labeled with a comment such as ~// Never do this!~.  In each case, the item
   explains why the example is bad and suggests an alternative approach.
 
-  {{{heading(Not for Beginners)}}}
+** Intended Audience
 
   This book is not for beginners: it assumes that you are already comfortable
   with Java.  If you are not, consider one fo the many fine introductory texts,
@@ -356,12 +356,241 @@
   knowledge of the language, it should provide food for thought even for
   advanced programmers.
 
-  {{{heading(Fundamental Principles)}}}
+** Rules Derived from Fundamental Principles
 
   #+cindex: fundamental principles
   #+cindex: principles, fundamental
   #+cindex: rules
+  #+cindex: component, definition
   Most of the rules in this book derive from a few fundamental principles.
+
+  - Clarity and simplicity are of paramount importance.
+  - The user of a component should never be surprised by its behavior.
+  - Components should be as small as possible but no smaller. [fn:component]
+  - Code should be reused rather than copied.
+  - The dependencies between components should be kept to a minimum.
+  - Errors should be detected as soon as possible after they are made, ideally
+    at compile time.
+
+
+  {{{subheading(The Art of Programming is Learning to Break the Rules)}}}
+
+  #+cindex: best programming practices
+  While the rules in this book do not apply 100 percent of the time, they do
+  characterize best programming practices in the great majority of cases.  You
+  should not slavishly follow these rules, but violate them only occasionaly
+  and with good reason.  Learning the art of programming, like most
+  disciplines, consists of learning the rules and then learning when to break
+  them.
+
+** On Performance Issues in this Book
+
+  #+cindex: performance
+  #+cindex: programming objectives
+  For the most part, this book is not about *performance*.  It is about writing
+  programs that are:
+
+  - clear
+  - correct
+  - usable
+  - robust
+  - flexible
+  - maintainable
+
+
+  {{{noindent}}}If you can do that, it's usually a relatively simple matter to
+  get the performance you need.
+  - [ ] Link to Item 67 here
+
+
+  #+cindex: ``on my machine''
+  #+cindex: performance numbers
+  {{{noindent}}}Some items do discuss performance concerns, and a few of these
+  items provide performance numbers.  These numbers, which are introduced with
+  the phrase ``On my machine,'' should be ragarded as approximate at best.
+
+** Releases and Names
+
+  When discussing features of the Java programming language and its libraries,
+  it is sometimes necessary to refer to specific releases.  For convenience,
+  this book uses nicknames in preference to official release names.  This table
+  shows the mapping between release names and nicknames.
+
+  #+NAME: tbl:release-nickname
+  #+CAPTION: Official Release Name to Nickname
+  | Official Release Name                  | Nickname |
+  |----------------------------------------+----------|
+  | JDK 1.0.x                              | Java 1.0 |
+  | JDK 1.1.x                              | Java 1.1 |
+  | Java 2 Platform, Standard Edition v1.2 | Java 2   |
+  | Java 2 Platform, Standard Edition v1.3 | Java 3   |
+  | Java 2 Platform, Standard Edition v1.4 | Java 4   |
+  | Java 2 Platform, Standard Edition v5.0 | Java 5   |
+  | Java Platform, Standard Edition 6      | Java 6   |
+  | Java Platform, Standard Edition 7      | Java 7   |
+  | Java Platform, Standard Edition 8      | Java 8   |
+  | Java Platform, Standard Edition 9      | Java 9   |
+  |----------------------------------------+----------|
+
+
+** Example Programs
+
+  #+cindex: examples
+  #+cindex: @code{java.util}
+  #+cindex: @code{java.io}
+  The examples are reasonably complete, but favor readability over
+  completeness.  They freely use classes from packages:
+
+  - ~java.util~
+  - ~java.io~
+
+
+  {{{subheading(Compiling Example Programs)}}}
+
+  #+cindex: compile examples
+  #+cindex: examples, compile
+  #+cindex: book website
+  #+cindex: website, book's
+  #+cindex: examples, extended versions
+  In order to compile examples, you may have to add one or more import
+  declarations, or other such boilerplate.  The book's website,
+  [[http://joshbloch.com/effectdivejava/]], contains an expanded version of each
+  example, which you can compile and run.
+
+** Technical Terms Old and New
+
+  #+cindex: terms, technical
+  #+cindex: technical terms
+  #+cindex: @cite{The Java Language Specification, Java SE 8 Edition}
+  For the most part, this book uses technical terms as theyare defined the
+  {{{cite(The Java Language Specification, Java SE 8 Edition)}}}.  A few terms
+  deserve special mention.
+
+  {{{subheading(Types)}}}
+
+  #+cindex: types, four
+  #+cindex: interfaces
+  #+cindex: annotations
+  #+cindex: classes
+  #+cindex: enums
+  #+cindex: arrays
+  #+cindex: primitives
+  #+cindex: term, types
+  #+cindex: term, interfaces
+  #+cindex: term, classes
+  #+cindex: term, arrays
+  #+cindex: term, primitives
+  - The language supports four kinds of /types/:
+    - /interfaces/ (including /annotations/)
+    - /classes/ (including /enums/)
+    - /arrays/
+    - /primitives/
+
+  {{{subheading(Reference Types)}}}
+
+  #+cindex: reference types
+  #+cindex: objects
+  #+cindex: members
+  #+cindex: fields
+  #+cindex: methods
+  #+cindex: member classes
+  #+cindex: member interfaces
+  #+cindex: term, reference types
+  #+cindex: term, objects
+  #+cindex: term, members
+  #+cindex: term, fields
+  #+cindex: term, methods
+  #+cindex: term, member interfaces
+  The first three are known as /reference types/.  Class instances and arrays
+  are /objects/; primitive values are not.  A Class's /members/ consist of of
+  its:
+  - /fields/
+  - /methods/
+  - /member classes/
+  - /member interfaces/
+
+  {{{subheading(Method Signature)}}}
+
+  #+cindex: signature
+  #+cindex: return type
+  #+cindex: term, signature
+  A method's /signature/ consists of its name and the types of its formal
+  parameters; the signature does /not/ include the method's return type.
+
+  {{{subheading(Old Terms with New Meanings)}}}
+
+  #+cindex: @cite{Java Language Specification}
+  #+cindex: inheritance
+  #+cindex: subclassing
+  #+cindex: implements an interface
+  #+cindex: extends an interface
+  #+cindex: access level
+  #+cindex: package-private
+  #+cindex: package access
+  #+cindex: term, inheritance
+  #+cindex: term, subclassing
+  #+cindex: term, implements
+  #+cindex: term, extends
+  #+cindex: term, package-private
+  #+cindex: term, package access
+  This book uses a few terms differently than the {{{cite(Java Language
+  Specification)}}}.  Unlike that reference, this book uses /inheritance/ as a
+  synonym for /subclassing/.  Instead of the term inheritance for interfaces,
+  this book simply states that a class /implements/ an interface or that one
+  interface /extends/ another.  To describe the access level that applies when
+  none is specified, this book uses the traditional /package-private/ instead
+  of the technically correct /package access/.
+
+  {{{subheading(New Defined Technical Terms)}}}
+
+  #+cindex: @cite{The Java Language Specification}
+  #+cindex: API
+  #+cindex: exported API
+  #+cindex: user of API
+  #+cindex: API user
+  #+cindex: client of API
+  #+cindex: API client
+  This book uses a few technical terms that are not defined in {{{cite(The Java
+  Language Specification)}}}.  The term /exported API/, or simply /API/, refers
+  to the classes, interfaces, constructors, members, and serialized forms by
+  which a programmer accesses a class, interface, or package. [fn:API] A
+  programmer who writes a program that uses an API is referred to as a /user/
+  of the API.  A class whose implementation uses an API is a /client/ of the
+  API.
+
+** Exported APIs
+
+  #+cindex: exported API
+  #+cindex: API, exported
+  #+cindex: API elements
+  #+cindex: term, API elements
+  #+cindex: Javadoc utility
+  #+cindex: utility, Javadoc
+  Classes, interfaces, constructors, members and serialized forms are
+  collectively known as /API elements/.  An exported API consists of the API
+  elements that are accessible outside of the package that defines the API.
+  These are the API elements that any client can use and the author of the API
+  commits to support.  They are also the elements for which the Javadoc utility
+  generates documentation in its default mode of operation.  The exported API
+  of a package consists of the public and protected members and constructors of
+  every public class or interface in the package.
+
+  {{{subheading(Module System)}}}
+
+  #+cindex: module system
+  #+cindex: term, module system
+  #+cindex: exported API, module
+  In Java 9, a /module system/ was added to the platform.  If a library makes
+  use of the module system, its exported API is the union of the exported APIs
+  of all the packages exported by the library's module declaration.
+
+[fn:component] The term /component/ refers to any reusable software element,
+from an individual method to a complex framework consisting of multiple
+packages.
+
+[fn:API] The term /API/, which is short for /application programming
+interface/, is used in preference to the otherwise preferable term /interface/
+to avoid confusion with the language construct of that name.
 * Lists
   :PROPERTIES:
   :APPENDIX: t
