@@ -3,8 +3,8 @@
 #+SUBTITLE: Best Practices for the Java Platform (3rd Edition)
 #+AUTHOR: Joshua Bloch
 #+SUBAUTHOR: Outline by WLHarvey4
-#+DATE: 2019-01-24 Thu 10:14
-#+MACRO: VERSION Version 0.0.3
+#+DATE: 2019-01-25 Fri 06:16
+#+MACRO: VERSION Version 0.0.4
 #+MACRO: EDITION Outline Edition 0.1
 #+CREATOR: WLHarvey4
 
@@ -591,6 +591,56 @@ packages.
 [fn:API] The term /API/, which is short for /application programming
 interface/, is used in preference to the otherwise preferable term /interface/
 to avoid confusion with the language construct of that name.
+
+* Creating and Destroying Objects
+
+** Item 1---Consider Static Factory Methods Instead of Constructors
+
+** Item 2---Consider a Builder When Faced with Many Constructor Parameters
+
+** Item 3---Enforce the Singleton Property with a Private Constructor or Enum
+
+** Item 4---Enforce Noninstantiability with a Private Constructor
+
+** Item 5---Prefer Dependency Injection to Hardwiring Resources
+
+** Item 6---Avoid Creating Unnecessary Objects
+
+** Item 7---Eliminate Obsolete Object References
+
+** Item 8---Avoid Finalizers and Cleaners
+
+** Item 9---Prefer ~try-with-resources~ to ~try-finally~
+
+* Methods Common to All Objects
+
+* Classes and Interfaces
+
+* Generics
+
+* Enums and Annotations
+
+* Lambdas and Streams
+
+* Methods
+
+* General Programming
+
+* Exceptions
+
+* Concurrency
+
+* Serialization
+
+* Items Corresponding to Second Edition
+  :PROPERTIES:
+  :APPENDIX: t
+  :END:
+
+* References
+  :PROPERTIES:
+  :APPENDIX: t
+  :END:
 * Lists
   :PROPERTIES:
   :APPENDIX: t
