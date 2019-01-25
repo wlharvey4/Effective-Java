@@ -3,8 +3,8 @@
 #+SUBTITLE: Best Practices for the Java Platform (3rd Edition)
 #+AUTHOR: Joshua Bloch
 #+SUBAUTHOR: Outline by WLHarvey4
-#+DATE: 2019-01-25 Fri 06:16
-#+MACRO: VERSION Version 0.0.4
+#+DATE: 2019-01-25 Fri 07:34
+#+MACRO: VERSION Version 0.0.5
 #+MACRO: EDITION Outline Edition 0.1
 #+CREATOR: WLHarvey4
 
@@ -594,6 +594,20 @@ to avoid confusion with the language construct of that name.
 
 * Creating and Destroying Objects
 
+  #+cindex: objects
+  #+cindex: objects, creating
+  #+cindex: objects, destroying
+  #+cindex: objects, destroying, cleanup
+  #+cindex: creating objects
+  #+cindex: destroying objects
+  #+cindex: cleanup actions, destroying objects
+  This chapter is concerned with /creating and destroying objects/:
+
+  - when and how to create them
+  - when and how to avoid creating them
+  - how to ensure they are destroyed in a timely manner
+  - how to manage any cleanup actions that must precede their destruction
+
 ** Item 1---Consider Static Factory Methods Instead of Constructors
 
 ** Item 2---Consider a Builder When Faced with Many Constructor Parameters
@@ -609,28 +623,217 @@ to avoid confusion with the language construct of that name.
 ** Item 7---Eliminate Obsolete Object References
 
 ** Item 8---Avoid Finalizers and Cleaners
+   :PROPERTIES:
+   :CUSTOM_ID: item 8
+   :END:
 
 ** Item 9---Prefer ~try-with-resources~ to ~try-finally~
 
 * Methods Common to All Objects
 
+  #+cindex: @code{Object}
+  #+cindex: concrete class
+  #+cindex: methods, nonfinal, @code{Object}
+  #+cindex: @code{equals}
+  #+cindex: @code{hashCode}
+  #+cindex: @code{toString}
+  #+cindex: @code{clone}
+  #+cindex: @code{finalize}
+  Although ~Object~ is a concrete class, it is designed primarily for
+  extension.  All of its nonfinal methods:
+
+  - ~equals~
+  - ~hashCode~
+  - ~toString~
+  - ~clone~
+  - ~finalize~
+
+  #+cindex: general contract
+  #+cindex: @code{HashMap}
+  #+cindex: @code{HashSet}
+  #+cindex: overriding nonfinal methods
+  #+cindex: methods, nonfinal, overriding
+  {{{noindent}}}have explicit /general contracts/ because they are designed to
+  be overridden.  It is the responsibility of any class overriding these
+  methods to obey their general contracts; failure to do so will prevent other
+  classes that depend on the contracts (such as ~HashMap~ and ~HashSet~) from
+  functioning properly in conjunction with the class.
+
+  #+cindex: @code{Object}, overriding nonfinal methods
+  This chapter tells you when and how to override the nonfinal ~Object~
+  methods.
+
+  {{{heading(@@texinfo:@code{@@finalize@@texinfo:}@@ Method Omitted)}}}
+
+  #+cindex: @code{finalize}
+  The ~finalize~ method is omitted from this chapter because it is discussed in
+  Item 8 ([[#item 8]]).
+
+  {{{heading(@@texinfo:@code{@@Comparable.compareTo@@texinfo:}@@ Method Included)}}}
+
+  #+cindex: @code{Comparable.compareTo}
+  While not an ~Object~ method, ~Comparable.compareTo~ is discussed in this
+  chapter because it has a similar character.
+
 * Classes and Interfaces
+
+  #+cindex: classes
+  #+cindex: interfaces
+  #+cindex: abstraction, basic units
+  Classes and interfaces lie at the heart of the Java programming language.
+  They are its basic units of abstraction.  The language provides many powerful
+  elements that you can use to design classes and interfaces.
+
+  #+cindex: classes, guidelines
+  #+cindex: interfaces, guidelines
+  This chapter contains guidelines to help you make the best use of these
+  elements so that your classes and interfaces are usable, robust, and
+  flexible.
 
 * Generics
 
+  #+cindex: generics
+  #+cindex: cast object
+  #+cindex: collection, casting
+  #+cindex: compile time, casting
+  Since Java 5, generics have been a part of the language.  Before generics,
+  you had to cast every object you read from a collection.  If someone
+  accidentally inserted an object of the wrong type, casts could fail att
+  runtime.  With generics, you tell the compiler what types of objects are
+  permitted in each collection.  The compiler inserts casts for you
+  automatically and tells you /at compile time/ if you try to insert an object
+  of the wrong type.  This results in programs that are both safer and clearer,
+  but these benefits, which are not limited to collections, come at a price.
+
+  This chapter tells you how to maximize the benefits and minimize the
+  complications.
+
 * Enums and Annotations
+
+  #+cindex: reference types, special purpose
+  #+cindex: enum type
+  #+cindex: annotation type
+  #+cindex: type, enum
+  #+cindex: type, annotation
+  Java supports two special-purpose families of reference types:
+
+  1. enum type (class)
+  2. annotation type (interface)
+
+
+  #+cindex: best practices, enum, annotation
+  This chapter discusses best practices for using these type families.
 
 * Lambdas and Streams
 
+  #+cindex: functional interfaces, lambdas
+  #+cindex: lambdas
+  #+cindex: method references
+  #+cindex: function objects
+  #+cindex: streams API
+  #+cindex: data elements, sequences of
+  In Java 8, functional interfaces, lambdas, and method references were added
+  to make it easier to create function objects.  The streams API was added in
+  tandem with these language changes to provide library support for processing
+  sequences of data elements.
+
+  #+cindex: best practices, lambdas
+  #+cindex: best practices, functional objects
+  This chapter discusses how to make best use of these facilities.
+
 * Methods
+
+  #+cindex: methods, design
+  #+cindex: design, methods
+  This chapter discusses several aspects of method design:
+
+  #+cindex: parameters
+  #+cindex: return values
+  #+cindex: method signatures
+  #+cindex: signatures
+  #+cindex: documenting methods
+  - how to treat parameters and return values
+  - how to design method signatures
+  - how to document methods
+
+
+  #+cindex: constructors
+  Much of the material in this chapter applies to constructors as well as to
+  methods.  This chapter focuses on:
+
+  - usability
+  - robustness
+  - flexibility
 
 * General Programming
 
+  #+cindex: local variables
+  #+cindex: variables, local
+  #+cindex: control structures
+  #+cindex: libraries
+  #+cindex: reflection
+  #+cindex: native methods
+  #+cindex: optimization
+  #+cindex: naming conventions
+  #+cindex: conventions, naming
+  This chapter is devoted to the nuts and bolts of the language.  It discusses:
+
+  - local variables
+  - control structures
+  - libraries
+  - data types
+  - reflection
+  - native methods
+  - optimization
+  - naming conventions
+
 * Exceptions
+
+  #+cindex: exceptions, guidelines for proper use
+  #+cindex: best practices, exceptions
+  When used to best advantage, exceptions can improve a program's:
+
+  - readability
+  - reliability
+  - maintainability
+
+
+  {{{noindent}}}When used improperly, they can have the opposite effect.
+
+  #+cindex: best practices, exceptions
+  This chapter provides guidelines for using exceptions effectively.
 
 * Concurrency
 
+  #+cindex: concurrency
+  #+cindex: concurrent programming
+  Threads allow multiple activities to proceed concurrently.  Concurrent
+  programming is harder than single-threaded programming, because more things
+  can go wrong, and failures can be hard to reproduce.  You can't avoid
+  concurrency.  It is inherent in the platform and a requirement if you are to
+  obtain good performance from multicore processors.
+
+  #+cindex: best practices, concurrent programming
+  This chapter contains advice to help you write clear, well-documented
+  concurrent programs.
+
 * Serialization
+
+  #+cindex: object serialization
+  #+cindex: serialization, objects
+  #+cindex: byte streams
+  #+cincex: encoding objects
+  #+cindex: serializing
+  #+cindex: deserializing
+  This chapter concerns /object serialization/, which is Java's framework for
+  encoding objects as byte streams (/serializing/) and reconstructing objects
+  from their encodings (/deserializing/).  Once an object has been serialized,
+  its encoding can be sent from one VM to another or stored on disk for later
+  deserialization.
+
+  #+cindex: serialization dangers
+  This chapter focuses on the dangers of serialization and how to minimize
+  them.
 
 * Items Corresponding to Second Edition
   :PROPERTIES:
