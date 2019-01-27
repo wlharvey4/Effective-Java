@@ -3,8 +3,8 @@
 #+SUBTITLE: Best Practices for the Java Platform (3rd Edition)
 #+AUTHOR: Joshua Bloch
 #+SUBAUTHOR: Outline by WLHarvey4
-#+DATE: 2019-01-25 Fri 09:05
-#+MACRO: VERSION Version 0.0.6
+#+DATE: 2019-01-26 Sat 22:33
+#+MACRO: VERSION Version 0.0.7
 #+MACRO: EDITION Outline Edition 0.1
 #+CREATOR: WLHarvey4
 
@@ -646,11 +646,13 @@ to avoid confusion with the language construct of that name.
    }
    #+END_SRC
 
-   {{{heading(Advantages)}}}
+*** Advantages
 
+**** {{{bold(Static Factory Methods Have Names)}}}
    #+cindex: static factory methods, advantages
    #+cindex: static factory methods, names
-   Static factory methods /have names/ (unlike constructors).
+   One advantage of static factory methods is that, unlike constructors, they
+   have names.
 
    {{{noindent}}}If the parameters to a constructor do not, in and of
    themselves, describe the object being returned, a static factory method with
@@ -665,6 +667,110 @@ to avoid confusion with the language construct of that name.
    #+END_cartouche
    -----
 
+   {{{subheading(Do Not Create Two Constructors with Same Parameter Types)}}}
+   A class can have only a single constructor wth a given signature.
+   Programmers have been known to get around this restriction by providing two
+   constructors whose parameter lists differ only in the order of their
+   parameter types.  *This is a really bad idea.* The user of such an API will
+   never be able to remember which constructor is which and will end up calling
+   the wrong one by mistake.  People reading code that uses these constructors
+   will not know what the code does without referring to the class
+   documentation.
+
+   {{{subheading(Instead Use Static Factory Methods With Good Names)}}} 
+
+   Static factory methods don't share the restriction because they have names.
+   Therefore:
+
+   #+BEGIN_QUOTE
+   In cases where a class seems to require multiple constructors with the same
+   signature, replace the constructors with static factory methods and
+   carefully chosen names to highlight their differences.
+   #+END_QUOTE
+
+**** {{{bold(Not Required to Create a New Object Each Time Invoked)}}}
+
+     #+cindex: constructors, create new object when invoked
+     #+cindex: static factory method, no new object when invoked
+     #+cindex: object, new, when invoked
+     A second advantage of static factory methods is that, unlike constructors,
+     {{{strong(they are not required to create a new object each time they are invoked)}}}.
+
+     #+cindex: immutable classes
+     #+cindex: class, immutable
+     #+cindex: instance, preconstructed
+     #+cindex: instance, cache
+     #+cindex: objects, duplicate, avoid
+     This allows immutable classes (Item 17) to use preconstructed instances,
+     or to cache instances as they are constructed, and dispense them
+     repeadedly to avoid creating unnecessary duplicate objects.
+
+     {{{subheading({{{code(Boolean.valueOf(boolean))}}})}}}
+
+     #+cindex: @code{Flyweight} pattern
+     #+cindex: @code{Boolean.valueOf(boolean)}
+     #+cindex: objects, equivalent
+     The ~Boolean.valueOf(boolean)~ method illustrates this technique: it
+     /never/ creates an object.  This technique is similar to the
+     {{{code(Flyweight)}}} pattern. (Gamma).  It can greatly improve
+     performance if equivalent objects are requested often, especially if they
+     are expensive to create.
+
+     {{{subheading(Instance-Controlled Classes)}}}
+
+     #+cindex: class, instance-controlled
+     #+cindex: instance-controlled class
+     The ability of static factory methods to return the same object from
+     repeated invocations allows classes to maintain strict control over what
+     instances exist at any time.  Classes that do this are said to be
+     {{{dfn(instance-controlled)}}}.  There are several reasons to write
+     instance-controlled classes.
+
+     #+cindex: singleton class
+     #+cindex: noninstantiable class
+     #+cindex: class, singleton or noninstantiable
+     1. Instance control allows a class to guarantee that it is a /singleton/
+        ([[#Item-3][Item 3]]) or noninstantiable ([[#Item-4][Item 4]]).
+     #+cindex: immutable value class
+     #+cindex: class, immutable value
+     2. Also, it allows an immutable value class (Item 17) to make the
+        guarantee that no two equal instances exist:
+        : a.equals(b) iff a == b
+        #+cindex: @code{Flyweight} pattern
+        This is the basis of the ~Flyweight~ pattern.  Enum types (Item 34)
+        provide this guarantee.
+
+
+**** {{{bold(Can Return An Object of any Subtype of Their Return Type)}}}
+
+     #+cindex: subtype, return
+     A third advantage of static factory methods is that, unlike constructors,
+     they can return an object of any subtype of their return type.  This gives
+     you great flexibility in choosing the class of the returned type.
+
+     #+cindex: interface-based frameworks
+     #+cindex: implementation hiding
+     One application of this flexibility is that an API can return objects
+     without making their classes public.  Hiding implementation classes in
+     this fashion leads to a very compact API.  This technique lends itself to
+     {{{dfn(interface-based frameworks)}}} (Item 20), where interfaces provide
+     natural return types for static factory methods.
+
+     #+cindex: noninstantiable class
+     #+cindex: class, noninstantiable
+     Prior to Java 8, interfaces couldn't have static methods.  By convention,
+     static factory methods for an interface name {{{code(Type)}}} were put in
+     a /noninstantiable companion class/ ([[#Item-4][Item 4]]) name {{{code(Types)}}}.
+
+     #+cindex: Java Collections Framework
+     #+cindex: @file{java.util.Collections}
+     For example, the Java Collections Framework has forty-five utility
+     implementations of its interfaces, providing unmodifiable collections,
+     synchronized collections, and the like.  Nearly all of these
+     implementations are exported via static factory methods in one
+     instantiable class (~java.util.Collections~).  The classes of the returned
+     objects are all nonpublic.
+
 #+cindex: @cite{Design Patterns}
 #+cindex: @samp{Factory Method}
 [fn:not-factory-method] A /static factory method/ is *not* the same as the
@@ -674,8 +780,14 @@ method has no direct equivalent in the /Design Patterns/ book.
 ** Item 2---Consider a Builder When Faced with Many Constructor Parameters
 
 ** Item 3---Enforce the Singleton Property with a Private Constructor or Enum
+   :PROPERTIES:
+   :CUSTOM_ID: Item-3
+   :END:
 
 ** Item 4---Enforce Noninstantiability with a Private Constructor
+   :PROPERTIES:
+   :CUSTOM_ID: Item-4
+   :END:
 
 ** Item 5---Prefer Dependency Injection to Hardwiring Resources
 
@@ -962,3 +1074,5 @@ method has no direct equivalent in the /Design Patterns/ book.
 #+MACRO: break @@texinfo:@*@@
 #+MACRO: code @@texinfo:@code{@@$1@@texinfo:}@@
 #+MACRO: dfn @@texinfo:@dfn{@@$1@@texinfo:}@@
+#+MACRO: bold @@texinfo:@b{@@$1@@texinfo:}@@
+#+MACRO: strong @@texinfo:@strong{@@$1@@texinfo:}@@
